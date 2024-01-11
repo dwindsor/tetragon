@@ -8,6 +8,6 @@
 
 struct msg_linux_binprm {
 	char path[MAX_STRING];
-}__attribute__((packed));
+} __attribute__((packed));
 
 #endif
