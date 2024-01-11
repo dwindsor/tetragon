@@ -297,13 +297,13 @@ func (m MsgGenericKprobeArgCapability) IsReturnArg() bool {
 
 type MsgGenericKprobeLinuxBinprm struct {
 	Value string
-};
+}
 
 type MsgGenericKprobeArgLinuxBinprm struct {
 	Index uint64
 	Value string
 	Label string
-};
+}
 
 func (m MsgGenericKprobeArgLinuxBinprm) GetIndex() uint64 {
 	return m.Index

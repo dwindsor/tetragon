@@ -181,44 +181,44 @@ const (
 )
 
 var argTypeTable = map[string]uint32{
-	"int":        argTypeInt,
-	"uint32":     argTypeU32,
-	"int32":      argTypeS32,
-	"uint64":     argTypeU64,
-	"int64":      argTypeS64,
-	"char_buf":   argTypeCharBuf,
-	"char_iovec": argTypeCharIovec,
-	"sizet":      argTypeSizet,
-	"skb":        argTypeSkb,
-	"string":     argTypeString,
-	"fd":         argTypeFd,
-	"path":       argTypePath,
-	"file":       argTypeFile,
-	"sock":       argTypeSock,
-	"url":        argTypeUrl,
-	"fqdn":       argTypeFqdn,
-	"syscall64":  argTypeSyscall64,
+	"int":          argTypeInt,
+	"uint32":       argTypeU32,
+	"int32":        argTypeS32,
+	"uint64":       argTypeU64,
+	"int64":        argTypeS64,
+	"char_buf":     argTypeCharBuf,
+	"char_iovec":   argTypeCharIovec,
+	"sizet":        argTypeSizet,
+	"skb":          argTypeSkb,
+	"string":       argTypeString,
+	"fd":           argTypeFd,
+	"path":         argTypePath,
+	"file":         argTypeFile,
+	"sock":         argTypeSock,
+	"url":          argTypeUrl,
+	"fqdn":         argTypeFqdn,
+	"syscall64":    argTypeSyscall64,
 	"linux_binprm": argTypeLinuxBinprm,
 }
 
 var argTypeStringTable = map[uint32]string{
-	argTypeInt:       "int",
-	argTypeU32:       "uint32",
-	argTypeS32:       "int32",
-	argTypeU64:       "uint64",
-	argTypeS64:       "int64",
-	argTypeCharBuf:   "char_buf",
-	argTypeCharIovec: "char_iovec",
-	argTypeSizet:     "sizet",
-	argTypeSkb:       "skb",
-	argTypeString:    "string",
-	argTypeFd:        "fd",
-	argTypeFile:      "file",
-	argTypePath:      "path",
-	argTypeSock:      "sock",
-	argTypeUrl:       "url",
-	argTypeFqdn:      "fqdn",
-	argTypeSyscall64: "syscall64",
+	argTypeInt:         "int",
+	argTypeU32:         "uint32",
+	argTypeS32:         "int32",
+	argTypeU64:         "uint64",
+	argTypeS64:         "int64",
+	argTypeCharBuf:     "char_buf",
+	argTypeCharIovec:   "char_iovec",
+	argTypeSizet:       "sizet",
+	argTypeSkb:         "skb",
+	argTypeString:      "string",
+	argTypeFd:          "fd",
+	argTypeFile:        "file",
+	argTypePath:        "path",
+	argTypeSock:        "sock",
+	argTypeUrl:         "url",
+	argTypeFqdn:        "fqdn",
+	argTypeSyscall64:   "syscall64",
 	argTypeLinuxBinprm: "linux_binprm",
 }
 
@@ -726,6 +726,8 @@ func writeMatchValues(k *KernelSelectorState, values []string, ty, op uint32) er
 func writeMatchStrings(k *KernelSelectorState, values []string, ty uint32) error {
 	maps := k.createStringMaps()
 
+	fmt.Printf("values: %v\n", values)
+
 	for _, v := range values {
 		trimNulSuffix := ty == argTypeString
 		value, size, err := ArgStringSelectorValue(v, trimNulSuffix)
@@ -814,6 +816,8 @@ func checkOp(op uint32) error {
 }
 
 func ParseMatchArg(k *KernelSelectorState, arg *v1alpha1.ArgSelector, sig []v1alpha1.KProbeArg) error {
+	fmt.Printf("ParseMatchArg: %v\n", arg)
+
 	WriteSelectorUint32(&k.data, arg.Index)
 
 	op, err := SelectorOp(arg.Operator)

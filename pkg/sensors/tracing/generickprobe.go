@@ -1533,7 +1533,7 @@ func handleMsgGenericKprobe(m *api.MsgGenericKprobe, gk *genericKprobe, r *bytes
 			arg.Index = uint64(a.index)
 			arg.Value, err = parseString(r)
 			if err != nil {
-				logger.GetLogger().WithError(err).Warnf("linux_binprm type error");
+				logger.GetLogger().WithError(err).Warnf("linux_binprm type error")
 			}
 			arg.Label = a.label
 			unix.Args = append(unix.Args, arg)
