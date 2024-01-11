@@ -176,6 +176,8 @@ const (
 
 	// mirrors gt.GenericSyscall64
 	argTypeSyscall64 = 28
+
+	argTypeLinuxBinprm = 29
 )
 
 var argTypeTable = map[string]uint32{
@@ -196,6 +198,7 @@ var argTypeTable = map[string]uint32{
 	"url":        argTypeUrl,
 	"fqdn":       argTypeFqdn,
 	"syscall64":  argTypeSyscall64,
+	"linux_binprm": argTypeLinuxBinprm,
 }
 
 var argTypeStringTable = map[uint32]string{
@@ -216,6 +219,7 @@ var argTypeStringTable = map[uint32]string{
 	argTypeUrl:       "url",
 	argTypeFqdn:      "fqdn",
 	argTypeSyscall64: "syscall64",
+	argTypeLinuxBinprm: "linux_binprm",
 }
 
 const (
@@ -835,7 +839,7 @@ func ParseMatchArg(k *KernelSelectorState, arg *v1alpha1.ArgSelector, sig []v1al
 		}
 	case SelectorOpEQ, SelectorOpNEQ:
 		switch ty {
-		case argTypeFd, argTypeFile, argTypePath, argTypeString, argTypeCharBuf:
+		case argTypeFd, argTypeFile, argTypePath, argTypeString, argTypeCharBuf, argTypeLinuxBinprm:
 			err := writeMatchStrings(k, arg.Values, ty)
 			if err != nil {
 				return fmt.Errorf("writeMatchStrings error: %w", err)
