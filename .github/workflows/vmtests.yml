@@ -27,11 +27,12 @@ jobs:
       uses: actions/setup-go@0c52d547c9bc32b1aa3301fd7a9cb496313a4491 # v5.0.0
       with:
         # renovate: datasource=golang-version depName=go
-        go-version: '1.21.5'
+        go-version: '1.21.6'
 
     - name: Install build dependencies
       run: |
-        sudo apt install libelf-dev netcat-traditional libcap-dev gcc libc6-dev-i386
+        sudo apt-get update
+        sudo apt-get install -y libelf-dev netcat-traditional libcap-dev gcc libc6-dev-i386
         echo `which clang`
         echo `which llc`
         echo `clang --version`
@@ -89,9 +90,9 @@ jobs:
     steps:
     - name: Install VM test dependencies
       run: |
-        sudo apt-get -qy update
+        sudo apt-get update
         sudo apt-cache search qemu
-        sudo apt-get -qy install mmdebstrap libguestfs-tools qemu-utils qemu-system-x86 cpu-checker qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virtinst virt-manager
+        sudo apt-get install -y mmdebstrap libguestfs-tools qemu-utils qemu-system-x86 cpu-checker qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virtinst virt-manager
 
     - name: Make kernel accessible
       run: |
