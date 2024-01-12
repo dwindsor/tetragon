@@ -726,8 +726,6 @@ func writeMatchValues(k *KernelSelectorState, values []string, ty, op uint32) er
 func writeMatchStrings(k *KernelSelectorState, values []string, ty uint32) error {
 	maps := k.createStringMaps()
 
-	fmt.Printf("values: %v\n", values)
-
 	for _, v := range values {
 		trimNulSuffix := ty == argTypeString
 		value, size, err := ArgStringSelectorValue(v, trimNulSuffix)
@@ -816,8 +814,6 @@ func checkOp(op uint32) error {
 }
 
 func ParseMatchArg(k *KernelSelectorState, arg *v1alpha1.ArgSelector, sig []v1alpha1.KProbeArg) error {
-	fmt.Printf("ParseMatchArg: %v\n", arg)
-
 	WriteSelectorUint32(&k.data, arg.Index)
 
 	op, err := SelectorOp(arg.Operator)
