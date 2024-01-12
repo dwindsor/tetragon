@@ -4,6 +4,7 @@
 #ifndef __BPF_LINUX_BINPRM_
 #define __BPF_LINUX_BINPRM_
 
+// Taken from bpf/process/types/basic.h
 #define MAX_STRING 1024
 
 struct msg_linux_binprm {
