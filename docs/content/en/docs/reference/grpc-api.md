@@ -687,6 +687,7 @@ AggregationOptions defines configuration options for aggregating events.
 | pod_regex | [string](#string) | repeated | Filter by process.pod.name field using RE2 regular expression syntax: https://github.com/google/re2/wiki/Syntax |
 | arguments_regex | [string](#string) | repeated | Filter by process.arguments field using RE2 regular expression syntax: https://github.com/google/re2/wiki/Syntax |
 | labels | [string](#string) | repeated | Filter events by pod labels using Kubernetes label selector syntax: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors Note that this filter never matches events without the pod field (i.e. host process events). |
+| policy_names | [string](#string) | repeated | Filter events by tracing policy names |
 
 <a name="tetragon-GetEventsRequest"></a>
 
@@ -748,7 +749,7 @@ GetEventsResponse event oneof.
 <a name="tetragon-FieldFilterAction"></a>
 
 ### FieldFilterAction
-Determins the behaviour of a field filter
+Determines the behavior of a field filter
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
