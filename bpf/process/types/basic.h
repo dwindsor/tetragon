@@ -205,7 +205,7 @@ struct event_config {
 #endif
 
 struct msg_linux_binprm {
-        char path[MAX_STRING];
+        char path[256];
 } __attribute__((packed));
 
 #ifdef __MULTI_KPROBE
