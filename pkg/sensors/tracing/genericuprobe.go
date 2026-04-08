@@ -530,6 +530,35 @@ func expandClearGoStringActions(spec *v1alpha1.UProbeSpec) error {
 	return nil
 }
 
+// expandSetGoIntActions rewrites SetGoInt to Override with ArgRegs for the Go int register.
+func expandSetGoIntActions(spec *v1alpha1.UProbeSpec) error {
+	if len(spec.Symbols) == 0 {
+		return nil
+	}
+	sym := spec.Symbols[0]
+	for i := range spec.Selectors {
+		for j := range spec.Selectors[i].MatchActions {
+			action := &spec.Selectors[i].MatchActions[j]
+			if strings.ToLower(action.Action) != "setgoint" {
+				continue
+			}
+			slot := GoABISlotForArg(sym, int(action.ArgIndex))
+			if slot < 0 {
+				return fmt.Errorf("SetGoInt: unknown Go ABI layout for %s arg %d", sym, action.ArgIndex)
+			}
+			regName, err := GoABISlotIntRegName(slot)
+			if err != nil {
+				return fmt.Errorf("SetGoInt: %w", err)
+			}
+			action.Action = "Override"
+			action.ArgRegs = []string{
+				fmt.Sprintf("%s=%d", regName, action.ArgValue),
+			}
+		}
+	}
+	return nil
+}
+
 func addUprobe(spec *v1alpha1.UProbeSpec, ids []idtable.EntryID, in *addUprobeIn, has *uprobeHas) ([]idtable.EntryID, error) {
 	var argRetprobe *v1alpha1.KProbeArg
 	var argRetprobeIdx int
@@ -559,6 +588,9 @@ func addUprobe(spec *v1alpha1.UProbeSpec, ids []idtable.EntryID, in *addUprobeIn
 	}
 
 	if err := expandClearGoStringActions(spec); err != nil {
+		return nil, err
+	}
+	if err := expandSetGoIntActions(spec); err != nil {
 		return nil, err
 	}
 

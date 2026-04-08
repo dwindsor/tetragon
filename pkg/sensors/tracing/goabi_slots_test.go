@@ -86,3 +86,30 @@ func TestExpandClearGoStringActionsServeContent(t *testing.T) {
 		t.Fatalf("expected [rsi=0], got %v", action.ArgRegs)
 	}
 }
+
+func TestExpandSetGoIntActions(t *testing.T) {
+	spec := &v1alpha1.UProbeSpec{
+		Symbols: []string{"os.OpenFile"},
+		Selectors: []v1alpha1.KProbeSelector{{
+			MatchActions: []v1alpha1.ActionSelector{{
+				Action:    "SetGoInt",
+				ArgIndex:  1,
+				ArgValue:  42,
+			}},
+		}},
+	}
+	if err := expandSetGoIntActions(spec); err != nil {
+		t.Fatalf("expandSetGoIntActions: %v", err)
+	}
+	action := spec.Selectors[0].MatchActions[0]
+	if strings.ToLower(action.Action) != "override" {
+		t.Fatalf("expected action Override, got %s", action.Action)
+	}
+	if len(action.ArgRegs) != 1 {
+		t.Fatalf("expected 1 argReg, got %d", len(action.ArgRegs))
+	}
+	// OpenFile arg 1 (flags): slot 2 -> rcx on amd64 Go ABI
+	if action.ArgRegs[0] != "rcx=42" {
+		t.Fatalf("expected rcx=42, got %v", action.ArgRegs)
+	}
+}
