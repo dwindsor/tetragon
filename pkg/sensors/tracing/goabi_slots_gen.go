@@ -13,6 +13,7 @@ var goABIKnownFuncs = map[string][]int{
 	"path/filepath.Clean":             {0},
 	"os.Open":                         {0},
 	"os.OpenFile":                     {0, 2, 3},
+	"strconv.ParseInt":                {0, 2, 3},
 	"os.ReadFile":                     {0},
 	"os.WriteFile":                    {0, 2, 5},
 	"text/template.(*Template).Parse": {0, 1},

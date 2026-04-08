@@ -328,7 +328,7 @@ func getArg(r *bytes.Reader, a argPrinter) api.MsgGenericKprobeArg {
 		arg.SinAddr = network.GetIP(address.SinAddr, address.SinFamily).String()
 		arg.SinPort = uint32(address.SinPort)
 		return arg
-	case gt.GenericS64Type:
+	case gt.GenericS64Type, gt.GenericGoIntType:
 		var output int64
 		var arg api.MsgGenericKprobeArgLong
 

@@ -713,6 +713,26 @@ func addUprobe(spec *v1alpha1.UProbeSpec, ids []idtable.EntryID, in *addUprobeIn
 				goArg[i].Regs[1] = lenOff
 				preloadArg = true
 			}
+
+			if argType == gt.GenericGoIntType {
+				if len(spec.Symbols) == 0 {
+					return errors.New("go_int type requires at least one symbol")
+				}
+				sym := spec.Symbols[0]
+				slot := GoABISlotForArg(sym, int(a.Index))
+				if slot < 0 {
+					return fmt.Errorf("go_int: unknown Go ABI layout for %s arg %d", sym, a.Index)
+				}
+				regName, err := GoABISlotIntRegName(slot)
+				if err != nil {
+					return fmt.Errorf("go_int: %w", err)
+				}
+				off, ok := asm.RegOffset(regName)
+				if !ok {
+					return fmt.Errorf("go_int: no pt_regs offset for register %s", regName)
+				}
+				goArg[i].Regs[0] = off
+			}
 		}
 
 		preload = preload || preloadArg
@@ -726,7 +746,7 @@ func addUprobe(spec *v1alpha1.UProbeSpec, ids []idtable.EntryID, in *addUprobeIn
 		if err != nil {
 			return err
 		}
-		if argType == gt.GenericGoStringType {
+		if argType == gt.GenericGoStringType || argType == gt.GenericGoIntType {
 			argMValue |= argPtRegsBit
 		}
 		if argReturnCopy(argMValue) {
@@ -872,9 +892,9 @@ func addUprobe(spec *v1alpha1.UProbeSpec, ids []idtable.EntryID, in *addUprobeIn
 	defer f.Close()
 
 	for _, a := range spec.Args {
-		if a.Type == "go_string" {
+		if a.Type == "go_string" || a.Type == "go_int" {
 			if err := f.ValidateGoABI(); err != nil {
-				return nil, fmt.Errorf("go_string: %w", err)
+				return nil, fmt.Errorf("%s: %w", a.Type, err)
 			}
 			break
 		}

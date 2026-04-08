@@ -445,7 +445,7 @@ func writeRangeInMap(v string, ty uint32, op uint32, m *ValueMap) error {
 	}
 	for idx := range 2 {
 		switch ty {
-		case gt.GenericIntType, gt.GenericS64Type, gt.GenericS32Type, gt.GenericS16Type, gt.GenericS8Type, gt.GenericSyscall64, gt.GenericSizeType:
+		case gt.GenericIntType, gt.GenericS64Type, gt.GenericGoIntType, gt.GenericS32Type, gt.GenericS16Type, gt.GenericS8Type, gt.GenericSyscall64, gt.GenericSizeType:
 			i, err := strconv.ParseInt(rangeStr[idx], 10, 64)
 			if err != nil {
 				return fmt.Errorf("MatchArgs value %s invalid: %w", v, err)
@@ -463,7 +463,7 @@ func writeRangeInMap(v string, ty uint32, op uint32, m *ValueMap) error {
 		}
 	}
 	switch ty {
-	case gt.GenericIntType, gt.GenericS64Type, gt.GenericS32Type, gt.GenericS16Type, gt.GenericS8Type, gt.GenericSyscall64, gt.GenericSizeType:
+	case gt.GenericIntType, gt.GenericS64Type, gt.GenericGoIntType, gt.GenericS32Type, gt.GenericS16Type, gt.GenericS8Type, gt.GenericSyscall64, gt.GenericSizeType:
 		if sRangeVal[0] > sRangeVal[1] {
 			sRangeVal[0], sRangeVal[1] = sRangeVal[1], sRangeVal[0]
 		}
@@ -511,7 +511,7 @@ func writeListValuesInMap(k *KernelSelectorState, v string, ty uint32, m *ValueM
 		var val [8]byte
 
 		switch ty {
-		case gt.GenericIntType, gt.GenericS64Type, gt.GenericS32Type, gt.GenericS16Type, gt.GenericS8Type, gt.GenericSyscall64, gt.GenericSizeType:
+		case gt.GenericIntType, gt.GenericS64Type, gt.GenericGoIntType, gt.GenericS32Type, gt.GenericS16Type, gt.GenericS8Type, gt.GenericSyscall64, gt.GenericSizeType:
 			binary.LittleEndian.PutUint64(val[:], uint64(values[idx]))
 		case gt.GenericU64Type, gt.GenericU32Type, gt.GenericU16Type, gt.GenericU8Type:
 			binary.LittleEndian.PutUint64(val[:], uint64(values[idx]))
@@ -555,7 +555,7 @@ func writeMatchValuesRange(k *KernelSelectorState, values []string, ty uint32) e
 			WriteSelectorUint32(&k.data, uint32(rangeMin))
 			WriteSelectorUint32(&k.data, uint32(rangeMax))
 
-		case gt.GenericS64Type, gt.GenericSyscall64, gt.GenericU64Type:
+		case gt.GenericS64Type, gt.GenericGoIntType, gt.GenericSyscall64, gt.GenericU64Type:
 			WriteSelectorUint64(&k.data, uint64(rangeMin))
 			WriteSelectorUint64(&k.data, uint64(rangeMax))
 
@@ -587,7 +587,7 @@ func writeMatchValuesInMap(k *KernelSelectorState, values []string, ty uint32, o
 			continue
 		}
 		switch ty {
-		case gt.GenericIntType, gt.GenericS64Type, gt.GenericS32Type, gt.GenericS16Type, gt.GenericS8Type, gt.GenericSyscall64, gt.GenericSizeType:
+		case gt.GenericIntType, gt.GenericS64Type, gt.GenericGoIntType, gt.GenericS32Type, gt.GenericS16Type, gt.GenericS8Type, gt.GenericSyscall64, gt.GenericSizeType:
 			i, err := strconv.ParseInt(v, 10, 64)
 			if err != nil {
 				return fmt.Errorf("MatchArgs value %s invalid: %w", v, err)
@@ -703,7 +703,7 @@ func writeMatchValues(k *KernelSelectorState, values []string, ty, op uint32) er
 				return fmt.Errorf("MatchArgs value %s invalid: %w", v, err)
 			}
 			WriteSelectorUint32(&k.data, uint32(i))
-		case gt.GenericS64Type, gt.GenericSyscall64:
+		case gt.GenericS64Type, gt.GenericGoIntType, gt.GenericSyscall64:
 			i, err := strconv.ParseInt(v, 0, 64)
 			if err != nil {
 				return fmt.Errorf("MatchArgs value %s invalid: %w", v, err)

@@ -34,6 +34,7 @@ var symbols = []string{
 	"path/filepath.Clean",
 	"os.Open",
 	"os.OpenFile",
+	"strconv.ParseInt",
 	"os.ReadFile",
 	"os.WriteFile",
 	"text/template.(*Template).Parse",

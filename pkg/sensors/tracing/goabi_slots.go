@@ -35,6 +35,14 @@ func GoABISlotRegNames(slot int) (ptrReg, lenReg string, err error) {
 	return goABIIntRegs[slot], goABIIntRegs[slot+1], nil
 }
 
+// GoABISlotIntRegName returns the register name holding a Go int at slot.
+func GoABISlotIntRegName(slot int) (string, error) {
+	if slot < 0 || slot >= len(goABIIntRegs) {
+		return "", fmt.Errorf("go ABI slot %d out of range (max %d for int)", slot, len(goABIIntRegs)-1)
+	}
+	return goABIIntRegs[slot], nil
+}
+
 // goABISlotPtRegsOffset returns pt_regs byte offsets for the ptr/len registers of a Go string.
 func goABISlotPtRegsOffset(slot int) (ptrOff, lenOff uint16, err error) {
 	if slot < 0 || slot+1 >= len(goABIIntRegs) {
