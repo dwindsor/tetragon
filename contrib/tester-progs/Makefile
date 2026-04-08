@@ -43,7 +43,8 @@ PROGS = sigkill-tester \
 	uprobe-simple \
 	pclntab-unstripped \
 	pclntab-stripped \
-	servecontent-test
+	servecontent-test \
+	openfile-test
 
 LIBS =	libuprobe.so \
 	libtester.so
@@ -175,6 +176,9 @@ pclntab-stripped: FORCE
 
 servecontent-test: FORCE
 	go build -o servecontent-test ./go/servecontent-test
+
+openfile-test: FORCE
+	go build -o openfile-test ./go/openfile-test
 
 .PHONY: clean
 clean:

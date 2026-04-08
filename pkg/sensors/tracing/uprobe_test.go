@@ -1190,3 +1190,63 @@ spec:
 	err = jsonchecker.JsonTestCheck(t, checker)
 	require.NoError(t, err)
 }
+
+func TestUprobeGoIntArg(t *testing.T) {
+	if runtime.GOARCH != "amd64" {
+		t.Skip("go_int ABI register mapping is amd64-only")
+	}
+	testBin := testutils.RepoRootPath("contrib/tester-progs/openfile-test")
+	if _, err := os.Stat(testBin); err != nil {
+		t.Skip("openfile-test not built; run 'make -C contrib/tester-progs openfile-test'")
+	}
+
+	// strconv.ParseInt(s, base, bitSize): capture bitSize (arg index 2, ABI slot 3 -> rdi).
+	wantBitSize := int64(64)
+
+	uprobeHook := `
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: go-int-test
+spec:
+  uprobes:
+  - path: "` + testBin + `"
+    symbols:
+    - "strconv.ParseInt"
+    args:
+    - index: 2
+      type: "go_int"
+`
+
+	createCrdFile(t, uprobeHook)
+
+	upChecker := ec.NewProcessUprobeChecker("GO_INT_ARG").
+		WithProcess(ec.NewProcessChecker().
+			WithBinary(sm.Full(testBin))).
+		WithSymbol(sm.Full("strconv.ParseInt")).
+		WithArgs(ec.NewKprobeArgumentListMatcher().
+			WithOperator(lc.Ordered).
+			WithValues(
+				ec.NewKprobeArgumentChecker().WithLongArg(wantBitSize),
+			))
+	checker := ec.NewUnorderedEventChecker(upChecker)
+
+	var doneWG, readyWG sync.WaitGroup
+	defer doneWG.Wait()
+
+	ctx, cancel := context.WithTimeout(context.Background(), tus.Conf().CmdWaitTime)
+	defer cancel()
+
+	obs, err := observertesthelper.GetDefaultObserverWithFile(t, ctx, testConfigFile, tus.Conf().TetragonLib, observertesthelper.WithMyPid())
+	if err != nil {
+		t.Fatalf("GetDefaultObserverWithFile error: %s", err)
+	}
+	observertesthelper.LoopEvents(ctx, t, &doneWG, &readyWG, obs)
+	readyWG.Wait()
+
+	err = exec.Command(testBin).Run()
+	require.NoError(t, err)
+
+	err = jsonchecker.JsonTestCheck(t, checker)
+	require.NoError(t, err)
+}
