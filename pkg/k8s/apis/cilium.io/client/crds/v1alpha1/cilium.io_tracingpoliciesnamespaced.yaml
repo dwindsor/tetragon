@@ -523,6 +523,7 @@ spec:
                                   - CleanupEnforcerNotification
                                   - Set
                                   - ClearGoString
+                                  - SetGoInt
                                   type: string
                                 argError:
                                   description: error value for override action
@@ -975,6 +976,7 @@ spec:
                                   - CleanupEnforcerNotification
                                   - Set
                                   - ClearGoString
+                                  - SetGoInt
                                   type: string
                                 argError:
                                   description: error value for override action
@@ -1546,6 +1548,7 @@ spec:
                                   - CleanupEnforcerNotification
                                   - Set
                                   - ClearGoString
+                                  - SetGoInt
                                   type: string
                                 argError:
                                   description: error value for override action
@@ -1998,6 +2001,7 @@ spec:
                                   - CleanupEnforcerNotification
                                   - Set
                                   - ClearGoString
+                                  - SetGoInt
                                   type: string
                                 argError:
                                   description: error value for override action
@@ -2360,6 +2364,7 @@ spec:
                                   - CleanupEnforcerNotification
                                   - Set
                                   - ClearGoString
+                                  - SetGoInt
                                   type: string
                                 argError:
                                   description: error value for override action
@@ -2812,6 +2817,7 @@ spec:
                                   - CleanupEnforcerNotification
                                   - Set
                                   - ClearGoString
+                                  - SetGoInt
                                   type: string
                                 argError:
                                   description: error value for override action
@@ -3079,6 +3085,7 @@ spec:
                             - CleanupEnforcerNotification
                             - Set
                             - ClearGoString
+                            - SetGoInt
                             type: string
                           argError:
                             description: error value for override action
@@ -3524,6 +3531,7 @@ spec:
                             - CleanupEnforcerNotification
                             - Set
                             - ClearGoString
+                            - SetGoInt
                             type: string
                           argError:
                             description: error value for override action
@@ -3841,6 +3849,7 @@ spec:
                                   - CleanupEnforcerNotification
                                   - Set
                                   - ClearGoString
+                                  - SetGoInt
                                   type: string
                                 argError:
                                   description: error value for override action
@@ -4293,6 +4302,7 @@ spec:
                                   - CleanupEnforcerNotification
                                   - Set
                                   - ClearGoString
+                                  - SetGoInt
                                   type: string
                                 argError:
                                   description: error value for override action
@@ -4873,6 +4883,7 @@ spec:
                                   - CleanupEnforcerNotification
                                   - Set
                                   - ClearGoString
+                                  - SetGoInt
                                   type: string
                                 argError:
                                   description: error value for override action
@@ -5325,6 +5336,7 @@ spec:
                                   - CleanupEnforcerNotification
                                   - Set
                                   - ClearGoString
+                                  - SetGoInt
                                   type: string
                                 argError:
                                   description: error value for override action
@@ -5665,6 +5677,7 @@ spec:
                                   - CleanupEnforcerNotification
                                   - Set
                                   - ClearGoString
+                                  - SetGoInt
                                   type: string
                                 argError:
                                   description: error value for override action
@@ -6117,6 +6130,7 @@ spec:
                                   - CleanupEnforcerNotification
                                   - Set
                                   - ClearGoString
+                                  - SetGoInt
                                   type: string
                                 argError:
                                   description: error value for override action
