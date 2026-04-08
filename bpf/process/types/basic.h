@@ -98,6 +98,7 @@ enum {
 	bpf_prog_type = 43,
 
 	go_string_type = 44,
+	go_int_type = 45,
 
 	nop_s64_ty = -10,
 	nop_u64_ty = -11,
@@ -2036,6 +2037,7 @@ FUNC_INLINE bool is_filter_arg_1(long type)
 	case s8_ty:
 	case u8_ty:
 #endif // __LARGE_BPF_PROG
+	case go_int_type:
 		return true;
 	default:
 		return false;
@@ -2066,6 +2068,7 @@ filter_arg_1(struct msg_generic_kprobe *e, struct selector_arg_filter *filter, c
 	case syscall64_type:
 	case s64_ty:
 	case u64_ty:
+	case go_int_type:
 		return filter_64ty(filter, args);
 	case size_type:
 	case int_type:

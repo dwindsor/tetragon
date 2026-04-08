@@ -220,6 +220,7 @@ FUNC_INLINE bool is_read_arg_1(long type)
 	case u16_ty:
 	case s8_ty:
 	case u8_ty:
+	case go_int_type:
 	case skb_type:
 	case sock_type:
 	case sockaddr_type:
@@ -330,6 +331,7 @@ __read_arg_1(void *ctx, int type, long orig_off, unsigned long arg, int argm, ch
 	case size_type:
 	case s64_ty:
 	case u64_ty:
+	case go_int_type:
 		probe_read(args, sizeof(__u64), &arg);
 		size = sizeof(__u64);
 		break;
@@ -641,7 +643,17 @@ FUNC_INLINE long generic_read_arg(void *ctx, int index, long off, struct bpf_map
 			     : [index] "+r"(index)
 			     : "i"(MAX_POSSIBLE_ARGS_MASK));
 		if (am & ARGM_PT_REGS) {
-			a = get_pt_regs_arg(ctx, config, index);
+			if (ty == go_int_type) {
+				__u16 go_off;
+
+				asm volatile("%[index] &= %1 ;\n"
+					     : [index] "+r"(index)
+					     : "i"(EVENT_CONFIG_MAX_REG_ARG_MASK));
+				go_off = config->go_arg[index].regs[0];
+				a = read_reg(ctx, go_off, 0);
+			} else {
+				a = get_pt_regs_arg(ctx, config, index);
+			}
 		} else if (am & ARGM_CURRENT_TASK) {
 			a = get_current_task();
 		} else {
