@@ -226,6 +226,7 @@ spec:
                             - bpf_cmd
                             - dentry
                             - bpf_prog
+                            - go_string
                             type: string
                         required:
                         - index
@@ -340,6 +341,7 @@ spec:
                             - bpf_cmd
                             - dentry
                             - bpf_prog
+                            - go_string
                             type: string
                         required:
                         - index
@@ -467,6 +469,7 @@ spec:
                           - bpf_cmd
                           - dentry
                           - bpf_prog
+                          - go_string
                           type: string
                       required:
                       - index
@@ -1302,6 +1305,7 @@ spec:
                             - bpf_cmd
                             - dentry
                             - bpf_prog
+                            - go_string
                             type: string
                         required:
                         - index
@@ -1416,6 +1420,7 @@ spec:
                             - bpf_cmd
                             - dentry
                             - bpf_prog
+                            - go_string
                             type: string
                         required:
                         - index
@@ -1543,6 +1548,7 @@ spec:
                           - bpf_cmd
                           - dentry
                           - bpf_prog
+                          - go_string
                           type: string
                       required:
                       - index
@@ -2351,6 +2357,7 @@ spec:
                             - bpf_cmd
                             - dentry
                             - bpf_prog
+                            - go_string
                             type: string
                         required:
                         - index
@@ -3829,6 +3836,7 @@ spec:
                             - bpf_cmd
                             - dentry
                             - bpf_prog
+                            - go_string
                             type: string
                         required:
                         - index
@@ -4618,6 +4626,7 @@ spec:
                             - bpf_cmd
                             - dentry
                             - bpf_prog
+                            - go_string
                             type: string
                         required:
                         - index
@@ -4732,6 +4741,7 @@ spec:
                             - bpf_cmd
                             - dentry
                             - bpf_prog
+                            - go_string
                             type: string
                         required:
                         - index
@@ -4867,6 +4877,7 @@ spec:
                           - bpf_cmd
                           - dentry
                           - bpf_prog
+                          - go_string
                           type: string
                       required:
                       - index
@@ -5639,6 +5650,7 @@ spec:
                             - bpf_cmd
                             - dentry
                             - bpf_prog
+                            - go_string
                             type: string
                         required:
                         - index
